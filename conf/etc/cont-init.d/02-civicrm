@@ -9,7 +9,6 @@ then
     cd /var/www/${PROJECT_NAME}/web
 
     chmod a+w sites/default
-    chmod go-rw sites/default/files
 
     cd sites/all/modules
     wget -q https://download.civicrm.org/civicrm-5.11.0-drupal.tar.gz

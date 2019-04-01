@@ -1,7 +1,8 @@
-# Drupal 7 + CiviCRM 5.11.0
+# CiviCRM 5.11.0 + Drupal 7
 
 # Auto configuration parameters :
 
+None
 
 # Compose file exemple
 
@@ -12,18 +13,20 @@ version: '3.1'
 services:
 
   drupal:
-    image: drupal
+    image: jonathancabezas/civicrm
     environment:
       - DATABASE_HOST=172.17.0.1
       - DATABASE_PORT=3306
-      - DATABASE_PASSWORD=password
-      - PROJECT_NAME=drupal
+      - DRUPAL_DB_NAME=drupal
+      - DRUPAL_DB_USERNAME=drupal
+      - DRUPAL_DB_PASSWORD=password
+      - CIVICRM_DB_NAME=civicrm
+      - CIVICRM_DB_USERNAME=civicrm
+      - CIVICRM_DB_PASSWORD=password
       - SITE_EMAIL=email@test.com
       - ADMIN_USERNAME=admin
       - ADMIN_PASSWORD=password
       - ADMIN_EMAIL=admin@test.com
-      - COUNTRY=France
-      - TIMEZONE=Europe/Paris
     ports:
       - 8080:80
     networks:
@@ -65,5 +68,6 @@ services:
 volumes:
     mariadb-data:
     mariadb-config:
+
 
 ```
