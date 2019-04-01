@@ -1,0 +1,20 @@
+#!/usr/bin/with-contenv sh
+if [ ! -d /var/www/${PROJECT_NAME} ] 
+then 
+	while ! $( nc -vz ${DATABASE_HOST} ${DATABASE_PORT} ) ;
+	do
+		sleep 1
+	done
+
+    cd /var/www
+    composer create-project drupal-composer/drupal-project:7.x-dev ${PROJECT_NAME} --no-interaction
+    cd ${PROJECT_NAME}
+    
+	chown nginx:nginx web -R
+
+    echo y | vendor/bin/drush site-install --db-url=mysql://${PROJECT_NAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${PROJECT_NAME} --account-name=${ADMIN_USERNAME} --account-pass=${ADMIN_PASSWORD} --account-mail=${ADMIN_EMAIL} --site-name=${PROJECT_NAME} --site-mail=${SITE_EMAIL}
+
+    # For security reasons, version is harder to figure out
+    chmod a-r web/CHANGELOG.txt
+fi
+

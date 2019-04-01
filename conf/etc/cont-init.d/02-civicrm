@@ -1,0 +1,26 @@
+#!/usr/bin/with-contenv sh
+if [ ! -d /var/www/${PROJECT_NAME}/web/sites/all/modules/civicrm ] 
+then 
+    while ! $( nc -vz ${DATABASE_HOST} ${DATABASE_PORT} ) ;
+    do
+        sleep 1
+    done
+
+    cd /var/www/${PROJECT_NAME}/web
+
+    chmod a+w sites/default
+    chmod go-rw sites/default/files
+
+    cd sites/all/modules
+    wget -q https://download.civicrm.org/civicrm-5.11.0-drupal.tar.gz
+    tar -xzf civicrm-5.11.0-drupal.tar.gz && rm civicrm-5.11.0-drupal.tar.gz
+
+    # Connect to admin
+    
+
+    # Auto-install civicrm
+    #
+    #
+    #chmod a-w /var/www/${PROJECT_NAME}/web/sites/default
+fi
+

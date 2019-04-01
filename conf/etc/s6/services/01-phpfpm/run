@@ -1,0 +1,2 @@
+#!/bin/sh
+service-handler "PHP-FPM" "php-fpm7 -F"
