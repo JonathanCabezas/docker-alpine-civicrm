@@ -15,7 +15,7 @@ services:
   drupal:
     image: jonathancabezas/civicrm
     environment:
-      - DATABASE_HOST=172.17.0.1
+      - DATABASE_HOST=mariadb
       - DATABASE_PORT=3306
       - DRUPAL_DB_NAME=drupal
       - DRUPAL_DB_USERNAME=drupal

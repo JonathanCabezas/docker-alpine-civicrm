@@ -1,5 +1,8 @@
 FROM jonathancabezas/drupal
 
+ENV CIVICRM_VERSION=5.11.0 \
+    TRUSTED_HOST=localhost
+
 ADD conf/ /
 
 RUN set -x \
