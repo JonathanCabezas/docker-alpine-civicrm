@@ -13,7 +13,7 @@ version: '3.1'
 services:
 
   drupal:
-    image: jonathancabezas/civicrm
+    image: civicrm
     environment:
       - DATABASE_HOST=mariadb
       - DATABASE_PORT=3306
@@ -24,6 +24,7 @@ services:
       - CIVICRM_DB_USERNAME=civicrm
       - CIVICRM_DB_PASSWORD=password
       - SITE_EMAIL=email@test.com
+      - TRUSTED_HOST=172.17.0.1:8080
       - ADMIN_USERNAME=admin
       - ADMIN_PASSWORD=password
       - ADMIN_EMAIL=admin@test.com
