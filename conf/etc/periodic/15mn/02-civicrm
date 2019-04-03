@@ -1,0 +1,7 @@
+#!/bin/sh
+
+run(){
+    eval "su - nginx -s /bin/ash -c 'cd /var/www/drupal/ && "$@"'" 
+    return $? 
+}
+run vendor/bin/drush civicrm-api job.execute auth=0
