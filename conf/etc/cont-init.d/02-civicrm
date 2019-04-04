@@ -56,12 +56,14 @@ then
     echo ">>> Installing CiviCRM Extensions"
     run vendor/bin/drush civicrm-ext-install org.civicrm.shoreditch || fail
     run vendor/bin/drush cvapi Setting.create customCSSURL="[civicrm.root]/ext/org.civicrm.shoreditch-0.1-alpha31/css/custom-civicrm.css" || fail
-    echo ">>> Setup Drupal Themes"
+    echo ">>> Setup Drupal and Civicrm Themes"
     run vendor/bin/drush vset civicrmtheme_theme_admin seven
     run vendor/bin/drush vset civicrmtheme_theme_public seven
     run vendor/bin/drush vset admin_theme seven
+    echo ">>> Setup Drupal Homepage "
     run vendor/bin/drush vset site_frontpage civicrm/dashboard
     run vendor/bin/drush vset site_403 user/login
+    echo ">>> Enable Civicrm Memcached"
     sed -i "s/ArrayCache/Memcached/g" /var/www/drupal/web/sites/default/civicrm.settings.php
 fi
 
