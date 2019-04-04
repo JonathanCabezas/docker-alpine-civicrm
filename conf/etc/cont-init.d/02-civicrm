@@ -67,6 +67,4 @@ then
     sed -i "s/ArrayCache/Memcached/g" /var/www/drupal/web/sites/default/civicrm.settings.php
 fi
 
-mkdir -p /tmp/xvfb/
-chown nginx:nginx /tmp/xvfb/ -R
 success

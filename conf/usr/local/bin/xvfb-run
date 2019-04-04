@@ -15,6 +15,7 @@ set -e
 PROGNAME=xvfb-run
 SERVERNUM=99
 XVFB_RUN_TMPDIR=/tmp/xvfb/
+mkdir -p "$XVFB_RUN_TMPDIR"
 AUTHFILE=$(mktemp -tp "$XVFB_RUN_TMPDIR" Xauthority.XXXXXXXX)
 ERRORFILE=/dev/null
 XVFBARGS="-screen 0 640x480x8"
