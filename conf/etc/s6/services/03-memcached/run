@@ -1,0 +1,5 @@
+#!/bin/sh
+NAME="MEMCACHED" 
+COMMAND="memcached -u memcached --listen=127.0.0.1" 
+
+exec service-handler "$NAME" "$COMMAND"

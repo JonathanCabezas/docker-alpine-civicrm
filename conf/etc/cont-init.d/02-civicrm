@@ -43,7 +43,7 @@ then
         --tarfile=/opt/ressources/civicrm.tgz \
         --lang=fr_FR \
         --langtarfile=/opt/ressources/civicrm-l10n.tgz \
-        --ssl=${CIVICRM_HTTPS} || fail
+        --ssl=${USE_HTTPS} || fail
     
     run unzip -q /opt/ressources/shoreditch.zip -d /var/www/drupal/web/sites/all/modules/civicrm/ext/ || fail
 
@@ -60,11 +60,9 @@ then
     run vendor/bin/drush vset civicrmtheme_theme_admin seven
     run vendor/bin/drush vset civicrmtheme_theme_public seven
     run vendor/bin/drush vset admin_theme seven
-
     run vendor/bin/drush vset site_frontpage civicrm/dashboard
     run vendor/bin/drush vset site_403 user/login
-
-    
+    sed -i "s/ArrayCache/Memcached/g" /var/www/drupal/web/sites/default/civicrm.settings.php
 fi
 
 success

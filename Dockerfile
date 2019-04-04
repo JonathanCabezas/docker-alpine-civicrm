@@ -1,12 +1,13 @@
 FROM jonathancabezas/drupal
 
 ENV CIVICRM_VERSION=5.12.0 \
-    TRUSTED_HOST=localhost \
     CIVICRM_DB_NAME=civicrm \
     CIVICRM_DB_USERNAME=civicrm \
-    CIVICRM_DB_PASSWORD=password \
-    CIVICRM_HTTPS=off
+    CIVICRM_DB_PASSWORD=password
 
+RUN apk add --no-cache memcached php7-memcached wkhtmltopdf xvfb xauth fontconfig \
+    && echo 'xvfb-run --server-args="-screen 0, 1024x768x24" /usr/bin/wkhtmltopdf $*' > /usr/local/bin/wkhtmltopdf \
+    && chmod a+rx /usr/local/bin/wkhtmltopdf
 
 RUN mkdir -p /opt/ressources/ \
     && wget -q https://download.civicrm.org/civicrm-${CIVICRM_VERSION}-drupal.tar.gz -O /opt/ressources/civicrm.tgz \
@@ -19,6 +20,7 @@ ADD conf/ /
 
 
 RUN set -x \
+    && chmod +x /usr/local/bin/xvfb-run \
     && chmod +x /etc/cont-init.d/* \
     && chmod +x /etc/s6/services/*/* \
     && chmod +x /etc/periodic/*/*
