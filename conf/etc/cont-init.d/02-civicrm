@@ -1,20 +1,24 @@
 #!/usr/bin/with-contenv sh
 
 fail(){
-  echo "[ Failed ]"
-  echo "1" > /tmp/civicrm
-  return 1
-
+    echo "[ Failed ]"
+    echo "1" > /tmp/civicrm
+    exit 1
 }
 
 success(){
-  echo "[ Success ]"
-  echo "0" > /tmp/civicrm
-  return 0
-
+    echo "[ Success ]"
+    echo "0" > /tmp/civicrm
+    exit 0
 }
 
-
+wait_db(){
+    echo ">>> Waiting for database to be ready"
+    while ! $( nc -vz ${DATABASE_HOST} ${DATABASE_PORT} )
+    do
+            sleep 1
+    done
+}
 
 run(){
     eval "su - nginx -s /bin/ash -c 'cd /var/www/drupal/ && "$@"'" 
@@ -23,12 +27,7 @@ run(){
 
 if [ ! -d /var/www/drupal/web/sites/all/modules/civicrm ] 
 then 
-    echo "> Install "
-    echo ">>> Waiting for database to be ready"
-    while ! $( nc -vz ${DATABASE_HOST} ${DATABASE_PORT} ) ;
-    do
-        sleep 1
-    done
+    wait_db
    
     echo ">>> Installing CiviCRM"
     cp /opt/ressources/civicrm.drush.inc /var/www/drupal/drush/civicrm.drush.inc
@@ -53,17 +52,21 @@ then
     run rm  /var/www/drupal/web/sites/all/modules/betterlogin.tar.gz 
     run vendor/bin/drush cc all || fail
     run vendor/bin/drush -y pm-enable civicrm_contact_ref civicrmtheme civicrm_engage civicrm_group_roles civicrm_member_roles betterlogin || fail
+
     echo ">>> Installing CiviCRM Extensions"
     run vendor/bin/drush civicrm-ext-install org.civicrm.shoreditch || fail
     run vendor/bin/drush cvapi Setting.create customCSSURL="[civicrm.root]/ext/org.civicrm.shoreditch-0.1-alpha31/css/custom-civicrm.css" || fail
-    echo ">>> Setup Drupal and Civicrm Themes"
+
+    echo ">>> Setting up Drupal and Civicrm Themes"
     run vendor/bin/drush vset civicrmtheme_theme_admin seven
     run vendor/bin/drush vset civicrmtheme_theme_public seven
     run vendor/bin/drush vset admin_theme seven
-    echo ">>> Setup Drupal Homepage "
+
+    echo ">>> Setting up Drupal Homepage "
     run vendor/bin/drush vset site_frontpage civicrm/dashboard
     run vendor/bin/drush vset site_403 user/login
-    echo ">>> Enable Civicrm Memcached"
+
+    echo ">>> Enabling Civicrm Memcached"
     sed -i "s/ArrayCache/Memcached/g" /var/www/drupal/web/sites/default/civicrm.settings.php
 fi
 
