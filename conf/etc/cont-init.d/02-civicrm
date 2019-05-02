@@ -18,6 +18,7 @@ wait_db(){
     do
             sleep 1
     done
+    echo ">>> Database ready"
 }
 
 run(){

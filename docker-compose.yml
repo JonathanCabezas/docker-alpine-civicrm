@@ -13,11 +13,11 @@ services:
       - CIVICRM_DB_NAME=civicrm
       - CIVICRM_DB_USERNAME=civicrm
       - CIVICRM_DB_PASSWORD=password
-      - SITE_EMAIL=email@test.com
+      - SITE_EMAIL=email@example.com
       - TRUSTED_HOST=172.17.0.1:8080
       - ADMIN_USERNAME=admin
       - ADMIN_PASSWORD=password
-      - ADMIN_EMAIL=admin@test.com
+      - ADMIN_EMAIL=admin@example.com
     ports:
       - 8080:80
     networks:
@@ -53,8 +53,6 @@ services:
       restart_policy:
         condition: on-failure
       mode: global
-
-
 
 volumes:
     mariadb-data:

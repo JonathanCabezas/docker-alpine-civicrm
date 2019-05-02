@@ -1,7 +1,6 @@
 FROM jonathancabezas/drupal
 
-ENV CIVICRM_VERSION=5.12.0 \
-    CIVICRM_DB_NAME=civicrm \
+ENV CIVICRM_DB_NAME=civicrm \
     CIVICRM_DB_USERNAME=civicrm \
     CIVICRM_DB_PASSWORD=password
 
